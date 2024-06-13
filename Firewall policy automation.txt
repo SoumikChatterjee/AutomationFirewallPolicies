@@ -1,0 +1,42 @@
+Components of scripts:-
+
+EngineCode.py : convert logs to policies
+selenium_chrome.py: establish a connection with the Chrome browser and automate interactions with firewall and extract logs.
+env.py: contains the encrypted password and the key, using that selenium_chrome.py logins to firewall.
+
+Tools and driver used:-
+
+pandas: for data analysis and manipulation
+numpy: for numerical computing and array manipulation
+selenium: to automate browser usage.
+chromedriver: used in selenium to establish connection with chrome browser.
+
+Logical Workflow:-
+
+[all the files have to be in same directory]
+
+1. Run the selenium_chrome.py.
+2. It will first check if there is any file name "log.csv" file or not. If there is one it will delete that and will carry on.
+3. It will then reffer to env.py file and will decrypt the password using a decryption algorithm and will keep the password ready for login.
+4. One instance of chromedirver will be created and the desired url will open.
+5. Here onward automatic tasks will begin till the logs gets downloaded. 
+6. Once the log file gets downloaded EngineCode.py program will be called.
+7. EngineCode.py will create "policies.csv" file containing the required policies.
+
+How EngineCode works:-
+
+1. It uses pandas and numpy modules for fast processing of data. Even a big data set can also be processed and analyzed within seconds. 
+2. First it reads the log.csv file and creates one dataframe.
+3. Then using groupby operation the program groups the log on the basis of 'Action','Source Zone', 'Destination Zone','Rule'. 
+4. One empty list called 'policies' will be created.
+5. Then it will start iterating each groups one by one. 
+6. Gets unique ips, ports and protocols out of each group.
+7. If there are are multiple protocols then it will be concatenated with the respective destination port.
+8. If the rule of a group is found to be default. Then it is further breaked on Application basis. And step 5,6 is repeated.
+9. After that one dataframe is created using all this filtered and processed attributes, and will be appended into policies.
+10. The looping will continue till the last group. 
+11. Once done the data frame is further processed by sorting the ip addresses of each row.
+12. In the final step data frame is saved into a new csv file named 'policies.csv'.
+
+
+
